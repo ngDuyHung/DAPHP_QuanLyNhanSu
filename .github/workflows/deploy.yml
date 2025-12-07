@@ -18,22 +18,17 @@ jobs:
           php-version: "8.2"
           extensions: mbstring, xml, ctype, json, bcmath, pdo, mysql, zip, gd
 
-      # --- BỎ QUA PHẦN NODEJS/NPM Ở ĐÂY ---
-
+      # Install composer
       - name: Install Composer Dependencies
-        # Thêm --ignore-platform-reqs để tránh lỗi version php nhỏ nhặt nếu có
-        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+        run: composer install --no-dev --optimize-autoloader --no-interaction
 
-      # ---- CREATE DEPLOYMENT PACKAGE ----
+      # Create ZIP
       - name: Create deployment zip
-        # Tối ưu lệnh Zip:
-        # 1. Bỏ node_modules (ko build vite nên không cần đâu)
-        # 2. Bỏ tests, .git, .github (không cần thiết trên production)
-        # 3. Bỏ storage (QUAN TRỌNG: để không ghi đè dữ liệu cũ trên server)
-        # 4. Bỏ các file cấu hình dev (phpunit, readme...)
-        run: zip -r deploy.zip . -x ".git/*" "node_modules/*" "tests/*" ".github/*" ".env" "storage/*" "phpunit.xml" "README.md" ".editorconfig"
+        run: zip -r deployhrm.zip . \
+          -x ".git/*" "node_modules/*" "tests/*" ".github/*" ".env" "storage/*" \
+             "phpunit.xml" "README.md" ".editorconfig"
 
-      # ---- UPLOAD PACKAGE VIA SCP ----
+      # Upload zip
       - name: Upload package to hosting
         uses: appleboy/scp-action@v0.1.7
         with:
@@ -41,10 +36,10 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: "deploy.zip"
-          target: "/home/aduyhungiovn/" # Folder chứa file zip khi upload lên
+          source: "deployhrm.zip"
+          target: "/home/aduyhungiovn/"
 
-      # ---- RUN POST-DEPLOY COMMANDS ----
+      # SSH + unzip + optimize
       - name: Deploy and run artisan commands
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -53,32 +48,29 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
-            # Vào thư mục gốc của web
-            cd /home/aduyhungiovn/public_html
+            cd /home/aduyhungiovn/hrm.duyhung.io.vn
 
-            # Giải nén (ghi đè các file code mới)
-            unzip -o ../deploy.zip
+            # Giải nén code mới
+            unzip -o ../deployhrm.zip
 
-            # Xóa file zip cho nhẹ server
-            rm ../deploy.zip
+            # Xóa file zip sau deploy
+            rm ../deployhrm.zip
 
-            # --- XỬ LÝ STORAGE (QUAN TRỌNG) ---
-            # Nếu folder storage chưa có thì tạo mới (để tránh lỗi lần đầu deploy)
-            # Nếu đã có rồi thì giữ nguyên, không bị file zip ghi đè
-            mkdir -p storage/framework/sessions
-            mkdir -p storage/framework/views
-            mkdir -p storage/framework/cache
+            # Storage — giữ nguyên, không bị ghi đè
+            mkdir -p storage/framework/{sessions,views,cache}
             mkdir -p storage/logs
-
-            # Set quyền ghi cho storage (quan trọng trên Linux)
             chmod -R 775 storage bootstrap/cache
 
-            # Chạy các lệnh Laravel cần thiết
+            # Nếu không có .env thì copy .env.example
+            [ ! -f .env ] && cp .env.example .env
+
+            # Laravel optimize
+            php artisan key:generate --force || true
             php artisan storage:link || true
             php artisan optimize:clear
             php artisan config:cache
             php artisan route:cache
             php artisan view:cache
 
-            # Chạy migrate database (nếu có sửa database)
+            # Database migrate
             php artisan migrate --force
