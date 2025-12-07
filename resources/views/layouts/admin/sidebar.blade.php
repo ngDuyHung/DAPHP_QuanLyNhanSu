@@ -71,7 +71,7 @@
 
          <!-- Nhân viên -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('employees.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-user"></i>
                  <div data-i18n="Employees">Nhân viên</div>
              </a>
@@ -79,7 +79,7 @@
 
          <!-- Phòng ban -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('departments.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-buildings"></i>
                  <div data-i18n="Departments">Phòng ban</div>
              </a>
@@ -87,7 +87,7 @@
 
          <!-- Chấm công -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('attendance.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-time"></i>
                  <div data-i18n="Attendance">Chấm công</div>
              </a>
@@ -95,7 +95,7 @@
 
          <!-- Quản lý lương -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('salary.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-money"></i>
                  <div data-i18n="Salary">Quản lý lương</div>
              </a>
@@ -103,7 +103,7 @@
 
          <!-- Nghỉ phép -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('leaves.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-calendar-event"></i>
                  <div data-i18n="Leaves">Nghỉ phép</div>
              </a>
@@ -111,7 +111,7 @@
 
          <!-- Hợp đồng -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('contracts.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-file"></i>
                  <div data-i18n="Contracts">Hợp đồng</div>
              </a>
@@ -119,7 +119,7 @@
 
          <!-- Thưởng/phạt -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('rewards.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-trophy"></i>
                  <div data-i18n="Rewards">Thưởng/phạt</div>
              </a>
@@ -127,7 +127,7 @@
 
          <!-- Báo cáo -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('reports.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
                  <div data-i18n="Reports">Báo cáo</div>
              </a>
@@ -135,7 +135,7 @@
 
          <!-- Tài khoản -->
          <li class="menu-item">
-             <a href="" class="menu-link">
+             <a href="{{ route('accounts.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-user-circle"></i>
                  <div data-i18n="Accounts">Tài khoản</div>
              </a>
