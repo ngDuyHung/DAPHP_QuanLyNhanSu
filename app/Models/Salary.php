@@ -22,4 +22,9 @@ class Salary extends Model
         'deduction',
         'total_salary',
     ];
+
+    public function employee()
+    {
+        return $this->belongsTo(Employees::class, 'employee_id', 'employee_id');
+    }
 }

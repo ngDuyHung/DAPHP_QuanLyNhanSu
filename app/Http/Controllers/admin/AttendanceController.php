@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
+use App\Models\Employees;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -12,7 +13,8 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        //
+        $attendances = Attendance::with('employee')->orderBy('date', 'desc')->get();
+        return view('admin.attendance.index', compact('attendances'));
     }
 
     /**
@@ -20,7 +22,8 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //
+        $employees = Employees::all();
+        return view('admin.attendance.create', compact('employees'));
     }
 
     /**
@@ -28,7 +31,15 @@ class AttendanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'employee_id' => 'required|integer|exists:employees,employee_id',
+            'date' => 'required|date',
+            'check_in' => 'required',
+            'check_out' => 'nullable',
+        ]);
+
+        Attendance::create($validatedData);
+        return redirect()->route('attendance.index')->with('success', 'Thêm chấm công thành công.');
     }
 
     /**
@@ -42,9 +53,11 @@ class AttendanceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Attendance $attendance)
+    public function edit(String $attendance_id)
     {
-        //
+        $attendance = Attendance::findOrFail($attendance_id);
+        $employees = Employees::all();
+        return view('admin.attendance.edit', compact('attendance', 'employees'));
     }
 
     /**
@@ -52,14 +65,24 @@ class AttendanceController extends Controller
      */
     public function update(Request $request, Attendance $attendance)
     {
-        //
+        $validatedData = $request->validate([
+            'employee_id' => 'required|integer|exists:employees,employee_id',
+            'date' => 'required|date',
+            'check_in' => 'required',
+            'check_out' => 'nullable',
+        ]);
+
+        $attendance->update($validatedData);
+        return redirect()->route('attendance.index')->with('success', 'Cập nhật chấm công thành công.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Attendance $attendance)
+    public function destroy(String $attendance_id)
     {
-        //
+        $attendance = Attendance::findOrFail($attendance_id);
+        $attendance->delete();
+        return redirect()->route('attendance.index')->with('success', 'Xóa chấm công thành công.');
     }
 }

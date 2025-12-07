@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Departments;
+use App\Models\Employees;
 use Illuminate\Http\Request;
 
 class DepartmentsController extends Controller
@@ -12,7 +13,8 @@ class DepartmentsController extends Controller
      */
     public function index()
     {
-        //
+        $departments = Departments::all();
+        return view('admin.departments.index', compact('departments'));
     }
 
     /**
@@ -20,7 +22,8 @@ class DepartmentsController extends Controller
      */
     public function create()
     {
-        //
+        $employees = Employees::all();
+        return view('admin.departments.create', compact('employees'));
     }
 
     /**
@@ -28,7 +31,18 @@ class DepartmentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'manager_id' => 'integer|nullable',
+        ]);
+        if(!empty($validatedData['manager_id'])){
+            $manager = Employees::find($validatedData['manager_id']);
+            if (!$manager) {
+                return redirect()->back()->withErrors(['manager_id' => 'Mã quản lý không tồn tại.'])->withInput();
+            }
+        }
+        Departments::create($validatedData);
+        return redirect()->route('departments.index')->with('success', 'Thêm phòng ban thành công.');
     }
 
     /**
@@ -42,24 +56,41 @@ class DepartmentsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Departments $departments)
+    public function edit(String $department_id)
     {
-        //
+        $department = Departments::findOrFail($department_id);
+        $employees = Employees::all();
+        return view('admin.departments.edit', compact('department', 'employees'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Departments $departments)
+    public function update(Request $request, Departments $department)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'manager_id' => 'integer|nullable',
+        ]);
+        
+        if(!empty($validatedData['manager_id'])){
+            $manager = Employees::find($validatedData['manager_id']);
+            if (!$manager) {
+                return redirect()->back()->withErrors(['manager_id' => 'Mã quản lý không tồn tại.'])->withInput();
+            }
+        }
+        
+        $department->update($validatedData);
+        return redirect()->route('departments.index')->with('success', 'Cập nhật phòng ban thành công.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Departments $departments)
+    public function destroy(String $department_id)
     {
-        //
+        $department = Departments::findOrFail($department_id);
+        $department->delete();
+        return redirect()->route('departments.index')->with('success', 'Xóa phòng ban thành công.');
     }
 }

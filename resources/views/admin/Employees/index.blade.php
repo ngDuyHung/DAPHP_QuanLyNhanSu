@@ -1,140 +1,73 @@
 @extends('admin')
 @section('content')
-<!-- Content wrapper -->
-<div class="content-wrapper">
-    <!-- Content -->
-    <div class="container-xxl flex-grow-1 container-p-y">
 
-        <!-- Basic Bootstrap Table -->
-        <div class="card">
-            <h5 class="card-header">Table Basic</h5>
-            <div class="table-responsive text-nowrap">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Project</th>
-                            <th>Client</th>
-                            <th>Users</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-border-bottom-0">
-                        <tr>
-                            <td><i class="icon-base bx bxl-angular icon-md text-danger me-4"></i> <span>Angular Project</span></td>
-                            <td>Albert Cook</td>
-                            <td>
-                                <ul class="list-unstyled m-0 avatar-group d-flex align-items-center">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                                        <img src="../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                                        <img src="../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Christina Parker">
-                                        <img src="../assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                </ul>
-                            </td>
-                            <td><span class="badge bg-label-primary me-1">Active</span></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="icon-base bx bx-dots-vertical-rounded"></i></button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="icon-base bx bx-edit-alt me-1"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="icon-base bx bx-trash me-1"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-base bx bxl-react icon-md text-info me-4"></i> <span>React Project</span></td>
-                            <td>Barry Hunter</td>
-                            <td>
-                                <ul class="list-unstyled m-0 avatar-group d-flex align-items-center">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                                        <img src="../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                                        <img src="../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Christina Parker">
-                                        <img src="../assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                </ul>
-                            </td>
-                            <td><span class="badge bg-label-success me-1">Completed</span></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="icon-base bx bx-dots-vertical-rounded"></i></button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="icon-base bx bx-edit-alt me-2"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="icon-base bx bx-trash me-2"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-base bx bxl-vuejs icon-md text-success me-4"></i> <span>VueJs Project</span></td>
-                            <td>Trevor Baker</td>
-                            <td>
-                                <ul class="list-unstyled m-0 avatar-group d-flex align-items-center">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                                        <img src="../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                                        <img src="../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Christina Parker">
-                                        <img src="../assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                </ul>
-                            </td>
-                            <td><span class="badge bg-label-info me-1">Scheduled</span></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="icon-base bx bx-dots-vertical-rounded"></i></button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="icon-base bx bx-edit-alt me-2"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="icon-base bx bx-trash me-2"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><i class="icon-base bx bxl-bootstrap icon-md text-primary me-4"></i> <span>Bootstrap Project</span></td>
-                            <td>Jerry Milton</td>
-                            <td>
-                                <ul class="list-unstyled m-0 avatar-group d-flex align-items-center">
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Lilian Fuller">
-                                        <img src="../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Sophia Wilkerson">
-                                        <img src="../assets/img/avatars/3.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                    <li data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="top" class="avatar avatar-xs pull-up" title="Christina Parker">
-                                        <img src="../assets/img/avatars/4.png" alt="Avatar" class="rounded-circle" />
-                                    </li>
-                                </ul>
-                            </td>
-                            <td><span class="badge bg-label-warning me-1">Pending</span></td>
-                            <td>
-                                <div class="dropdown">
-                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="icon-base bx bx-dots-vertical-rounded"></i></button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="icon-base bx bx-edit-alt me-2"></i> Edit</a>
-                                        <a class="dropdown-item" href="javascript:void(0);"><i class="icon-base bx bx-trash me-2"></i> Delete</a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+<!-- Basic Bootstrap Table -->
+<div class="card">
+    <div class="container-fluid mt-2">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h4 class="m-0">Quản lý nhân viên</h4>
+
+                <a class="btn btn-primary" href="{{ route('employees.create') }}">
+                    Thêm nhân viên
+                </a>
             </div>
         </div>
-        <!--/ Basic Bootstrap Table -->
     </div>
-    <!-- / Content -->
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <!-- //employee_id	full_name	gender	dob	email	phone	address	department_id	hire_date	position	user_id	 -->
+                    <th>Mã nhân viên</th>
+                    <th>Họ tên</th>
+                    <th>Giới tính</th>
+                    <th>Ngày sinh</th>
+                    <th>Email</th>
+                    <th>Điện thoại</th>
+                    <th>Địa chỉ</th>
+                    <th>Phòng ban</th>
+                    <th>Ngày tuyển dụng</th>
+                    <th>Vị trí</th>
+                    <th>Mã người dùng</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                @foreach($employees as $employee)
+                <tr>
+                    <td>{{ $employee->employee_id }}</td>
+                    <td>{{ $employee->full_name }}</td>
+                    <td>
+                        @if ($employee->gender == 'M')
+                        Nam
+                        @else
+                        Nữ
+                        @endif
+                    </td>
+                    <td>{{ $employee->dob }}</td>
+                    <td>{{ $employee->email }}</td>
+                    <td>{{ $employee->phone }}</td>
+                    <td>{{ $employee->address }}</td>
+                    <td>{{ $employee->department_id }}</td>
+                    <td>{{ $employee->hire_date }}</td>
+                    <td>{{ $employee->position }}</td>
+                    <td>{{ $employee->user_id }}</td>
+                    <td>
+                        <a href="{{ route('employees.edit', $employee->employee_id) }}" class="btn btn-sm btn-warning">Sửa</a>
+                        <form action="{{ route('employees.destroy', $employee->employee_id) }}" method="POST" style="display:inline-block;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?')">Xóa</button>
+                        </form>
+                        @endforeach
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+<!--/ Basic Bootstrap Table -->
+
 
 @endsection
