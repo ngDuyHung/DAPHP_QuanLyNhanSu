@@ -34,8 +34,7 @@
                     <td>{{ $leave->leave_id }}</td>
                     <td>
                         @if($leave->employee)
-                            <strong>{{ $leave->employee->full_name }}</strong><br>
-                            <small class="text-muted">{{ $leave->employee->position }}</small>
+                            @include('layouts.admin.userInfo', ['employee' => $leave->employee])
                         @else
                             <span class="text-muted">Không xác định</span>
                         @endif

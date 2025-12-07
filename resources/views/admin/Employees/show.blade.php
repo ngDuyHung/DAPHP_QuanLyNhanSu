@@ -23,11 +23,17 @@
             <div class="card mb-4">
                 <div class="card-body text-center">
                     <div class="mb-3">
+                        @if($employee->img_link)
+                        <div class="mx-auto mb-3" style="width: 150px; height: 150px;">
+                            <img src="{{ asset('storage/' . $employee->img_link) }}" alt="{{ $employee->full_name }}" class="rounded-circle" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        @else
                         <div class="avatar avatar-xl mx-auto mb-3">
                             <span class="avatar-initial rounded-circle bg-label-primary" style="font-size: 3rem;">
                                 {{ strtoupper(substr($employee->full_name, 0, 1)) }}
                             </span>
                         </div>
+                        @endif
                         <h4 class="mb-1">{{ $employee->full_name }}</h4>
                         <span class="badge bg-label-primary">{{ $employee->position }}</span>
                     </div>

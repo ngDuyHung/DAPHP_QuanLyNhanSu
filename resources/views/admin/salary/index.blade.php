@@ -36,8 +36,7 @@
                     <td>{{ $salary->salary_id }}</td>
                     <td>
                         @if($salary->employee)
-                            <strong>{{ $salary->employee->full_name }}</strong><br>
-                            <small class="text-muted">{{ $salary->employee->position }}</small>
+                           @include('layouts.admin.userInfo', ['employee' => $salary->employee])
                         @else
                             <span class="text-muted">Không xác định</span>
                         @endif

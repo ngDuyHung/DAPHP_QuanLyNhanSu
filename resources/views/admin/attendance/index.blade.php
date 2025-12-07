@@ -34,7 +34,7 @@
                     <td>{{ $attendance->attendance_id }}</td>
                     <td>
                         @if($attendance->employee)
-                            {{ $attendance->employee->full_name }}
+                            @include('layouts.admin.userInfo', ['employee' => $attendance->employee])
                         @else
                             <span class="text-muted">Không xác định</span>
                         @endif

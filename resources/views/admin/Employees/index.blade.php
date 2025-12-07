@@ -19,10 +19,9 @@
             <thead>
                 <tr>
                     <!-- //employee_id	full_name	gender	dob	email	phone	address	department_id	hire_date	position	user_id	 -->
-                    <th>Mã nhân viên</th>
-                    <th>Họ tên</th>
+                    <th>Mã nv</th>
+                    <th>Họ tên/email</th>
                     <th>Giới tính</th>
-                    <th>Email</th>
                     <th>Điện thoại</th>
                     <th>Phòng ban</th>
                     <th>Vị trí</th>
@@ -33,7 +32,9 @@
                 @foreach($employees as $employee)
                 <tr>
                     <td>{{ $employee->employee_id }}</td>
-                    <td>{{ $employee->full_name }}</td>
+                    <td>
+                       @include('layouts.admin.userInfo', ['employee' => $employee])
+                    </td>
                     <td>
                         @if ($employee->gender == 'M')
                         Nam
@@ -41,8 +42,6 @@
                         Nữ
                         @endif
                     </td>
-
-                    <td>{{ $employee->email }}</td>
                     <td>{{ $employee->phone }}</td>
                     <td>{{ $employee->department->name ?? 'Chưa có phòng ban' }}</td>
                     <td>{{ $employee->position }}</td>

@@ -39,17 +39,7 @@
                     </td>
                     <td>
                         @if($account->employee)
-                            <div class="d-flex align-items-center">
-                                <div class="avatar avatar-sm me-2">
-                                    <span class="avatar-initial rounded-circle bg-label-primary">
-                                        {{ strtoupper(substr($account->employee->full_name, 0, 1)) }}
-                                    </span>
-                                </div>
-                                <div>
-                                    <strong>{{ $account->employee->full_name }}</strong><br>
-                                    <small class="text-muted">{{ $account->employee->position }}</small>
-                                </div>
-                            </div>
+                            @include('layouts.admin.userInfo', ['employee' => $account->employee])
                         @else
                             <span class="badge bg-warning">Chưa liên kết</span>
                         @endif

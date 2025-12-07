@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\Employees;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class EmployeesController extends Controller
 {
@@ -21,7 +22,8 @@ class EmployeesController extends Controller
      */
     public function create()
     {
-        return view('admin.employees.create');
+        $departments = \App\Models\Departments::all();
+        return view('admin.employees.create', compact('departments'));
     }
 
     /**
@@ -41,7 +43,16 @@ class EmployeesController extends Controller
             'position' => 'required|string|max:255',
             'user_id' => 'integer|nullable',
             'auto_createAC' => 'sometimes|boolean',
+            'img_link' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Xử lý upload ảnh
+        if ($request->hasFile('img_link')) {
+            $image = $request->file('img_link');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('employees', $imageName, 'public');
+            $validatedData['img_link'] = $imagePath;
+        }
 
         if(!empty($validatedData['department_id'])){
             $department = \App\Models\Departments::find($validatedData['department_id']);
@@ -86,7 +97,8 @@ class EmployeesController extends Controller
     public function edit(String $employee_id)
     {
         $employee = Employees::findOrFail($employee_id);
-        return view('admin.employees.edit', compact('employee'));
+        $departments = \App\Models\Departments::all();
+        return view('admin.employees.edit', compact('employee', 'departments'));
     }
 
     /**
@@ -105,7 +117,23 @@ class EmployeesController extends Controller
             'hire_date' => 'required|date',
             'position' => 'required|string|max:255',
             'user_id' => 'integer|nullable',
+            'img_link' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        // Xử lý upload ảnh mới
+        if ($request->hasFile('img_link')) {
+            // Xóa ảnh cũ nếu có
+            if ($employee->img_link && Storage::disk('public')->exists($employee->img_link)) {
+                Storage::disk('public')->delete($employee->img_link);
+            }
+            
+            // Lưu ảnh mới
+            $image = $request->file('img_link');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imagePath = $image->storeAs('employees', $imageName, 'public');
+            $validatedData['img_link'] = $imagePath;
+        }
+
         $employee->update($validatedData);
         return redirect()->route('employees.index')->with('success', 'Cập nhật nhân viên thành công.');
     }
@@ -116,6 +144,12 @@ class EmployeesController extends Controller
     public function destroy(String $employees_id)
     {
         $employees = Employees::findOrFail($employees_id);
+        
+        // Xóa ảnh nếu có
+        if ($employees->img_link && Storage::disk('public')->exists($employees->img_link)) {
+            Storage::disk('public')->delete($employees->img_link);
+        }
+        
         $employees->delete();
         return redirect()->route('employees.index')->with('success', 'Xóa nhân viên thành công.');
     }

@@ -60,7 +60,7 @@
                                     </span>
                                 </div>
                             </div>
-                            <span class="fw-semibold d-block mb-1">Đơn chờ duyệt</span>
+                            <span class="fw-semibold d-block mb-1">Đơn đang chờ duyệt</span>
                             <h3 class="card-title text-nowrap mb-1">{{ $pendingLeaves }}</h3>
                             <small class="text-warning fw-semibold">Nghỉ phép chờ xử lý</small>
                         </div>

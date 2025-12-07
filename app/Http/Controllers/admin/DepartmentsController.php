@@ -48,9 +48,11 @@ class DepartmentsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Departments $departments)
+    public function show(String $department_id)
     {
-        //
+        //nạp quan hệ employees tránh N+1 problem (không phải truy vấn nhiều lần)
+        $department = Departments::with(['employees.contracts', 'manager'])->findOrFail($department_id);
+        return view('admin.departments.show', compact('department'));
     }
 
     /**
@@ -90,6 +92,9 @@ class DepartmentsController extends Controller
     public function destroy(String $department_id)
     {
         $department = Departments::findOrFail($department_id);
+        if($department->employees()->count() > 0){
+            return redirect()->route('departments.index')->with('error', 'Không thể xóa phòng ban vì còn nhân viên thuộc phòng ban này.');
+        }
         $department->delete();
         return redirect()->route('departments.index')->with('success', 'Xóa phòng ban thành công.');
     }

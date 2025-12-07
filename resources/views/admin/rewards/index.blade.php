@@ -32,23 +32,22 @@
                 @foreach($rewards as $reward)
                 <tr>
                     <td>{{ $reward->record_id }}</td>
-                    <td>
+                    <td>    
                         @if($reward->employee)
-                            <strong>{{ $reward->employee->full_name }}</strong><br>
-                            <small class="text-muted">{{ $reward->employee->position }}</small>
+                        @include('layouts.admin.userInfo', ['employee' => $reward->employee])
                         @else
-                            <span class="text-muted">Không xác định</span>
+                        <span class="text-muted">Không xác định</span>
                         @endif
                     </td>
                     <td>
                         @if($reward->type == 'reward')
-                            <span class="badge bg-success">
-                                <i class="bx bx-trophy"></i> Thưởng
-                            </span>
+                        <span class="badge bg-success">
+                            <i class="bx bx-trophy"></i> Thưởng
+                        </span>
                         @else
-                            <span class="badge bg-danger">
-                                <i class="bx bx-error-circle"></i> Phạt
-                            </span>
+                        <span class="badge bg-danger">
+                            <i class="bx bx-error-circle"></i> Phạt
+                        </span>
                         @endif
                     </td>
                     <td>
@@ -56,20 +55,20 @@
                     </td>
                     <td>
                         @if($reward->description)
-                            <small>{{ Str::limit($reward->description, 50) }}</small>
+                        <small>{{ Str::limit($reward->description, 50) }}</small>
                         @else
-                            <span class="text-muted">-</span>
+                        <span class="text-muted">-</span>
                         @endif
                     </td>
                     <td class="text-end">
                         @if($reward->type == 'reward')
-                            <span class="text-success fw-bold">
-                                +{{ number_format($reward->amount, 0, ',', '.') }} đ
-                            </span>
+                        <span class="text-success fw-bold">
+                            +{{ number_format($reward->amount, 0, ',', '.') }} đ
+                        </span>
                         @else
-                            <span class="text-danger fw-bold">
-                                -{{ number_format($reward->amount, 0, ',', '.') }} đ
-                            </span>
+                        <span class="text-danger fw-bold">
+                            -{{ number_format($reward->amount, 0, ',', '.') }} đ
+                        </span>
                         @endif
                     </td>
                     <td>{{ \Carbon\Carbon::parse($reward->date_recorded)->format('d/m/Y') }}</td>

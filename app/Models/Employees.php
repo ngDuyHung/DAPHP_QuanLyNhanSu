@@ -6,12 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Employees extends Model
 {
-    //employee_id	full_name	gender	dob	email	phone	address	department_id	hire_date	position	user_id	
+    //employee_id	full_name	gender	img_link	dob	email	phone	address	department_id	hire_date	position	user_id	
     protected $table = 'employees';
     protected $primaryKey = 'employee_id';
     public $timestamps = false;
     protected $fillable = [
         'full_name',
+        'img_link',
         'gender',
         'dob',
         'email',
