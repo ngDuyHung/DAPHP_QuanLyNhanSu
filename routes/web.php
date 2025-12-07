@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'dashboard'])->name('dashboard');   
 Auth::routes();
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('employees', App\Http\Controllers\admin\EmployeesController::class);
     Route::resource('departments', App\Http\Controllers\admin\DepartmentsController::class);
     Route::resource('attendance', App\Http\Controllers\admin\AttendanceController::class);
@@ -19,3 +19,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('reports', App\Http\Controllers\admin\ReportsController::class);
     Route::resource('accounts', App\Http\Controllers\admin\AccountsController::class);
 });
+
+//client 
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');   

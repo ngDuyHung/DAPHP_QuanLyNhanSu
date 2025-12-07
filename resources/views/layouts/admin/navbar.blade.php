@@ -11,7 +11,7 @@
         <!-- Trang Quản trị -->
         <div class="navbar-nav align-items-center me-4">
             <div class="nav-item d-flex align-items-center">
-                <a href="">Trang quản trị</a>
+                <a href="{{ route('dashboard') }}">Trang quản trị</a>
             </div>
         </div>
         <!-- /Trang Quản trị -->
@@ -19,7 +19,7 @@
         <!-- Trang nhân viên -->
         <div class="navbar-nav align-items-center me-4 pe-4">
             <div class="nav-item d-flex align-items-center">
-                <a href=""> Trang nhân viên</a>
+                <a href="{{ route('home') }}"> Trang nhân viên</a>
             </div>
         </div>
         <!-- /Trang nhân viên -->

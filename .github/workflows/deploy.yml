@@ -1,0 +1,84 @@
+name: Deploy Laravel Fast
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          extensions: mbstring, xml, ctype, json, bcmath, pdo, mysql, zip, gd
+
+      # --- BỎ QUA PHẦN NODEJS/NPM Ở ĐÂY ---
+
+      - name: Install Composer Dependencies
+        # Thêm --ignore-platform-reqs để tránh lỗi version php nhỏ nhặt nếu có
+        run: composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist
+
+      # ---- CREATE DEPLOYMENT PACKAGE ----
+      - name: Create deployment zip
+        # Tối ưu lệnh Zip:
+        # 1. Bỏ node_modules (ko build vite nên không cần đâu)
+        # 2. Bỏ tests, .git, .github (không cần thiết trên production)
+        # 3. Bỏ storage (QUAN TRỌNG: để không ghi đè dữ liệu cũ trên server)
+        # 4. Bỏ các file cấu hình dev (phpunit, readme...)
+        run: zip -r deploy.zip . -x ".git/*" "node_modules/*" "tests/*" ".github/*" ".env" "storage/*" "phpunit.xml" "README.md" ".editorconfig"
+
+      # ---- UPLOAD PACKAGE VIA SCP ----
+      - name: Upload package to hosting
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "deploy.zip"
+          target: "/home/aduyhungiovn/" # Folder chứa file zip khi upload lên
+
+      # ---- RUN POST-DEPLOY COMMANDS ----
+      - name: Deploy and run artisan commands
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            # Vào thư mục gốc của web
+            cd /home/aduyhungiovn/public_html
+
+            # Giải nén (ghi đè các file code mới)
+            unzip -o ../deploy.zip
+
+            # Xóa file zip cho nhẹ server
+            rm ../deploy.zip
+
+            # --- XỬ LÝ STORAGE (QUAN TRỌNG) ---
+            # Nếu folder storage chưa có thì tạo mới (để tránh lỗi lần đầu deploy)
+            # Nếu đã có rồi thì giữ nguyên, không bị file zip ghi đè
+            mkdir -p storage/framework/sessions
+            mkdir -p storage/framework/views
+            mkdir -p storage/framework/cache
+            mkdir -p storage/logs
+
+            # Set quyền ghi cho storage (quan trọng trên Linux)
+            chmod -R 775 storage bootstrap/cache
+
+            # Chạy các lệnh Laravel cần thiết
+            php artisan storage:link || true
+            php artisan optimize:clear
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+
+            # Chạy migrate database (nếu có sửa database)
+            php artisan migrate --force

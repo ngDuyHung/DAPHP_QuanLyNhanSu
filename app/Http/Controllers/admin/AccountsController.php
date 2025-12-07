@@ -35,7 +35,8 @@ class AccountsController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|String|max:255',
+            'role' => 'required|string|in:admin,hr,employee',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'employee_id' => 'nullable|integer|exists:employees,employee_id|unique:employees,user_id',
@@ -44,6 +45,7 @@ class AccountsController extends Controller
         // Tạo user
         $user = User::create([
             'name' => $validatedData['name'],
+            'role' => $validatedData['role'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
         ]);
@@ -87,6 +89,7 @@ class AccountsController extends Controller
         
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'role' => 'required|string|in:admin,hr,employee',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'employee_id' => 'nullable|integer|exists:employees,employee_id',
