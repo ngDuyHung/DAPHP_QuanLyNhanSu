@@ -1,4 +1,4 @@
-@extends('layouts.client')
+@extends('client')
 
 @section('title', 'Trang chủ nhân viên')
 
