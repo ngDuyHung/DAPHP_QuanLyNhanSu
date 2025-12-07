@@ -17,6 +17,7 @@ class Contracts extends Model
         'end_date',
         'basic_salary',
         'note',
+        'status'
     ];
 
     public function employee()
