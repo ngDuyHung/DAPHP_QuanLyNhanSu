@@ -22,14 +22,10 @@
                     <th>Mã nhân viên</th>
                     <th>Họ tên</th>
                     <th>Giới tính</th>
-                    <th>Ngày sinh</th>
                     <th>Email</th>
                     <th>Điện thoại</th>
-                    <th>Địa chỉ</th>
                     <th>Phòng ban</th>
-                    <th>Ngày tuyển dụng</th>
                     <th>Vị trí</th>
-                    <th>Mã người dùng</th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
@@ -45,24 +41,31 @@
                         Nữ
                         @endif
                     </td>
-                    <td>{{ $employee->dob }}</td>
+
                     <td>{{ $employee->email }}</td>
                     <td>{{ $employee->phone }}</td>
-                    <td>{{ $employee->address }}</td>
-                    <td>{{ $employee->department_id }}</td>
-                    <td>{{ $employee->hire_date }}</td>
+                    <td>{{ $employee->department->name ?? 'Chưa có phòng ban' }}</td>
                     <td>{{ $employee->position }}</td>
-                    <td>{{ $employee->user_id }}</td>
+
                     <td>
-                        <a href="{{ route('employees.edit', $employee->employee_id) }}" class="btn btn-sm btn-warning">Sửa</a>
-                        <form action="{{ route('employees.destroy', $employee->employee_id) }}" method="POST" style="display:inline-block;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?')">Xóa</button>
-                        </form>
-                        @endforeach
+                        <div class="d-flex gap-1">
+                            <a href="{{ route('employees.show', $employee->employee_id) }}" class="btn btn-sm btn-outline-primary" title="Xem chi tiết">
+                                <i class="bx bx-show"></i>
+                            </a>
+                            <a href="{{ route('employees.edit', $employee->employee_id) }}" class="btn btn-sm btn-outline-info" title="Sửa">
+                                <i class="bx bx-edit"></i>
+                            </a>
+                            <form action="{{ route('employees.destroy', $employee->employee_id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Xóa" onclick="return confirm('Bạn có chắc chắn muốn xóa nhân viên này không?')">
+                                    <i class="bx bx-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
+                @endforeach
             </tbody>
         </table>
     </div>

@@ -40,7 +40,33 @@ class EmployeesController extends Controller
             'hire_date' => 'required|date',
             'position' => 'required|string|max:255',
             'user_id' => 'integer|nullable',
+            'auto_createAC' => 'sometimes|boolean',
         ]);
+
+        if(!empty($validatedData['department_id'])){
+            $department = \App\Models\Departments::find($validatedData['department_id']);
+            if (!$department) {
+                return redirect()->back()->withErrors(['department_id' => 'Mã phòng ban không tồn tại.'])->withInput();
+            }
+        }
+
+        if($request->has('auto_createAC')){
+            // Tự động tạo tài khoản
+            $usernamePart = strstr($validatedData['email'], '@', true); // kết quả: "duyhung" bỏ phần @gmail.com
+            $user = \App\Models\User::create([
+                'name' => $validatedData['full_name'],
+                'email' => $validatedData['email'],
+                'password' => bcrypt($usernamePart), // Mật khẩu mặc định
+            ]);
+            $validatedData['user_id'] = $user->id;
+        }else{
+            if(!empty($validatedData['user_id'])){
+                $user = \App\Models\User::find($validatedData['user_id']);
+                if (!$user) {
+                    return redirect()->back()->withErrors(['user_id' => 'Mã người dùng không tồn tại.'])->withInput();
+                }
+            }
+        }
         Employees::create($validatedData);
         return redirect()->route('employees.index')->with('success', 'Thêm nhân viên thành công.');
     }
@@ -48,9 +74,10 @@ class EmployeesController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Employees $employees)
+    public function show(String $employee_id)
     {
-        //
+        $employee = Employees::with(['department', 'contracts', 'attendances', 'leaves', 'rewardsDisciplines', 'salaries', 'user'])->findOrFail($employee_id);
+        return view('admin.employees.show', compact('employee'));
     }
 
     /**

@@ -49,7 +49,9 @@
                 <label for="position" class="form-label">Chức vụ</label>
                 <input type="text" class="form-control" id="position" name="position" required>
             </div>
+            <input type="checkbox" name="auto_createAC" id="auto_createAC" value="1">Tự động tạo tài khoản
             <div class="mb-3">
+                
                 <label for="user_id" class="form-label">Mã người dùng</label>
                 <input type="text" class="form-control" id="user_id" name="user_id">
             </div>

@@ -62,7 +62,7 @@
 
      <ul class="menu-inner py-1">
          <!-- Trang chủ -->
-         <li class="menu-item active">
+         <li class="menu-item @if(request()->routeIs('dashboard')) active @endif">
              <a href="{{ route('dashboard') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-home-circle"></i>
                  <div data-i18n="Dashboard">Trang chủ</div>
@@ -70,7 +70,7 @@
          </li>
 
          <!-- Nhân viên -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('employees.*')) active @endif">
              <a href="{{ route('employees.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-user"></i>
                  <div data-i18n="Employees">Nhân viên</div>
@@ -78,7 +78,7 @@
          </li>
 
          <!-- Phòng ban -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('departments.*')) active @endif">
              <a href="{{ route('departments.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-buildings"></i>
                  <div data-i18n="Departments">Phòng ban</div>
@@ -86,7 +86,7 @@
          </li>
 
          <!-- Chấm công -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('attendance.*')) active @endif">
              <a href="{{ route('attendance.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-time"></i>
                  <div data-i18n="Attendance">Chấm công</div>
@@ -94,7 +94,7 @@
          </li>
 
          <!-- Quản lý lương -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('salary.*')) active @endif">
              <a href="{{ route('salary.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-money"></i>
                  <div data-i18n="Salary">Quản lý lương</div>
@@ -102,7 +102,7 @@
          </li>
 
          <!-- Nghỉ phép -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('leaves.*')) active @endif">
              <a href="{{ route('leaves.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-calendar-event"></i>
                  <div data-i18n="Leaves">Nghỉ phép</div>
@@ -110,7 +110,7 @@
          </li>
 
          <!-- Hợp đồng -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('contracts.*')) active @endif">
              <a href="{{ route('contracts.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-file"></i>
                  <div data-i18n="Contracts">Hợp đồng</div>
@@ -118,7 +118,7 @@
          </li>
 
          <!-- Thưởng/phạt -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('rewards.*')) active @endif">
              <a href="{{ route('rewards.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-trophy"></i>
                  <div data-i18n="Rewards">Thưởng/phạt</div>
@@ -126,7 +126,7 @@
          </li>
 
          <!-- Báo cáo -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('reports.*')) active @endif">
              <a href="{{ route('reports.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-bar-chart-alt-2"></i>
                  <div data-i18n="Reports">Báo cáo</div>
@@ -134,7 +134,7 @@
          </li>
 
          <!-- Tài khoản -->
-         <li class="menu-item">
+         <li class="menu-item @if(request()->routeIs('accounts.*')) active @endif">
              <a href="{{ route('accounts.index') }}" class="menu-link">
                  <i class="menu-icon tf-icons bx bx-user-circle"></i>
                  <div data-i18n="Accounts">Tài khoản</div>
