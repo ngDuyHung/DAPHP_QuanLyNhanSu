@@ -41,7 +41,8 @@ class HomeController extends Controller
 
     public function home()
     {
-        return view('client.home');
+        $employee = Employees::where('user_id', Auth::id())->first();
+        return view('client.home', compact('employee'));
     }
 
     public function dashboard()

@@ -21,4 +21,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
 });
 
 //client 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('home');   
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('client.home');
+Route::get('/salary/{employee_id}', [App\Http\Controllers\client\SalaryController::class, 'show'])->name('client.salary.show');   
+Route::get('/leaves/{employee_id}', [App\Http\Controllers\client\LeavesController::class, 'index'])->name('client.leaves.index');
+
+// Attendance routes for client
+Route::get('/attendance/{employee_id}', [App\Http\Controllers\client\AttendanceController::class, 'index'])->name('client.attendance.index');
+Route::post('/attendance/check-in', [App\Http\Controllers\client\AttendanceController::class, 'checkIn'])->name('client.attendance.checkin');
+Route::post('/attendance/check-out', [App\Http\Controllers\client\AttendanceController::class, 'checkOut'])->name('client.attendance.checkout');

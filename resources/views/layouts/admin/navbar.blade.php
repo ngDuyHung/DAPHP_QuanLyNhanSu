@@ -19,7 +19,7 @@
         <!-- Trang nhân viên -->
         <div class="navbar-nav align-items-center me-4 pe-4">
             <div class="nav-item d-flex align-items-center">
-                <a href="{{ route('home') }}"> Trang nhân viên</a>
+                <a href="{{ route('client.home') }}"> Trang nhân viên</a>
             </div>
         </div>
         <!-- /Trang nhân viên -->
