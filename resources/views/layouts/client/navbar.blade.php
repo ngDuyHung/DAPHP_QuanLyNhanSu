@@ -1,3 +1,30 @@
+<style>
+    @media (max-width: 1199.98px) {
+        .navbar-collapse {
+            background-color: #fff;
+            padding: 1rem;
+            border-radius: 0.375rem;
+            box-shadow: 0 0.25rem 1rem rgba(161, 172, 184, 0.45);
+            margin-top: 0.5rem;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+        
+        /* Ensure the navbar container handles the absolute positioning correctly */
+        #layout-navbar {
+            position: relative; 
+        }
+
+        /* Adjust nav links spacing on mobile */
+        .navbar-nav .nav-item .nav-link {
+            padding: 0.5rem 0;
+        }
+    }
+</style>
+
 <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
     id="layout-navbar">
     
