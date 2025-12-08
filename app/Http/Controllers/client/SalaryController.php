@@ -4,6 +4,7 @@ namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Salary;
+use App\Models\Rewards_discipline;
 use Illuminate\Http\Request;
 
 class SalaryController extends Controller
@@ -37,8 +38,9 @@ class SalaryController extends Controller
      */
     public function show(string $id)
     {
-        $salary = Salary::where('employee_id', $id)->firstOrFail();
-        return view('client.salary', compact('salary'));
+        $salary = Salary::where('employee_id', $id)->get();
+        $rewards = Rewards_discipline::where('employee_id', $id)->get();
+        return view('client.salary', compact('salary', 'rewards'));
     }
 
     /**

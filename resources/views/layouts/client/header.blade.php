@@ -30,10 +30,15 @@
 
     <!-- Page CSS -->
 
+    <!-- Dark Theme CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/css/theme-dark.css')}}" />
+
     <!-- Helpers -->
     <script src="{{ asset('assets/vendor/js/helpers.js') }}"></script>
 
     <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
     <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
     <script src="{{ asset('assets/js/config.js') }}"></script>
+      <!-- Theme Toggle -->
+    <script src="{{ asset('assets/js/theme-toggle.js')}}"></script>
 </head>

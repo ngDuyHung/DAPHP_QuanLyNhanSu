@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Leaves;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LeavesController extends Controller
 {
@@ -12,7 +14,8 @@ class LeavesController extends Controller
      */
     public function index()
     {
-        //
+        $Leaves = Leaves::where('employee_id', Auth::user()->employee->employee_id ?? 0)->get()->sortByDesc('start_date');
+        return view('client.leaves', compact('Leaves'));
     }
 
     /**
@@ -28,7 +31,23 @@ class LeavesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'leave_type' => 'required|string',
+            'start_date' => 'required|date|after_or_equal:today',
+            'end_date'   => 'required|date|after_or_equal:start_date',
+        ], [
+            'start_date.after_or_equal' => 'Ngày bắt đầu phải lớn hơn hoặc bằng ngày hôm nay.',
+            'end_date.after_or_equal' => 'Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.',
+        ]);
+
+        Leaves::create([
+            'employee_id' => Auth::user()->employee->employee_id ?? 0,
+            'leave_type' => $validated['leave_type'],
+            'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'],
+            'status' => 'Pending',
+        ]);
+        return redirect()->route('client.leaves.index', ['employee_id' => Auth::user()->employee->employee_id ?? 0])->with('success', 'Đơn xin nghỉ phép đã được gửi thành công.');
     }
 
     /**

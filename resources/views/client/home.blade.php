@@ -96,7 +96,7 @@
                                 @csrf
                                 <input type="hidden" name="employee_id" value="{{ $employee->employee_id }}">
                                 <button type="submit" class="btn btn-success btn-lg px-5">
-                                    <i class='bx bx-log-in-circle me-2'></i> Check-in
+                                    <i class='bx bx-log-in-circle me-2'></i> Chấm công vào
                                 </button>
                             </form>
                             
@@ -104,7 +104,7 @@
                                 @csrf
                                 <input type="hidden" name="employee_id" value="{{ $employee->employee_id }}">
                                 <button type="submit" class="btn btn-danger btn-lg px-5">
-                                    <i class='bx bx-log-out-circle me-2'></i> Check-out
+                                    <i class='bx bx-log-out-circle me-2'></i> Chấm công ra
                                 </button>
                             </form>
                         </div>
