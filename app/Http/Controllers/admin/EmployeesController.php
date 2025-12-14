@@ -11,10 +11,54 @@ class EmployeesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employees::all();
-        return view('admin.employees.index', compact('employees'));
+        $query = Employees::with('department');
+
+        // Tìm kiếm theo tên, email, điện thoại
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('full_name', 'LIKE', "%{$search}%")
+                  ->orWhere('email', 'LIKE', "%{$search}%")
+                  ->orWhere('phone', 'LIKE', "%{$search}%");
+            });
+        }
+
+        // Tìm kiếm theo mã nhân viên
+        if ($request->filled('employee_id')) {
+            $query->where('employee_id', 'LIKE', "%{$request->employee_id}%");
+        }
+
+        // Lọc theo phòng ban
+        if ($request->filled('department')) {
+            $query->where('department_id', $request->department);
+        }
+
+        // Lọc theo giới tính
+        if ($request->filled('gender')) {
+            $query->where('gender', $request->gender);
+        }
+
+        // Tìm kiếm theo vị trí
+        if ($request->filled('position')) {
+            $query->where('position', 'LIKE', "%{$request->position}%");
+        }
+
+        // Lọc theo ngày vào làm (từ ngày)
+        if ($request->filled('hire_date_from')) {
+            $query->where('hire_date', '>=', $request->hire_date_from);
+        }
+
+        // Lọc theo ngày vào làm (đến ngày)
+        if ($request->filled('hire_date_to')) {
+            $query->where('hire_date', '<=', $request->hire_date_to);
+        }
+
+        $employees = $query->get();
+        $departments = \App\Models\Departments::all();
+        
+        return view('admin.employees.index', compact('employees', 'departments'));
     }
 
     /**
