@@ -93,6 +93,15 @@ class AccountsController extends Controller
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'password' => ['nullable', 'confirmed', Rules\Password::defaults()],
             'employee_id' => 'nullable|integer|exists:employees,employee_id',
+        ],[
+            'name.required' => 'Tên không được để trống.',
+            'role.required' => 'Vai trò không được để trống.',
+            'email.required' => 'Email không được để trống.',
+            'email.email' => 'Định dạng email không hợp lệ.',
+            'email.unique' => 'Email đã được sử dụng.',
+            'password.confirmed' => 'Xác nhận mật khẩu không khớp.',
+            'employee_id.exists' => 'Mã nhân viên không tồn tại.',
+            'employee_id.integer' => 'Mã nhân viên không hợp lệ.',
         ]);
 
         // Cập nhật thông tin user
