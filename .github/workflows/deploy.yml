@@ -40,6 +40,8 @@ jobs:
           port: 22
           source: "deploy.zip"
           target: "/home/aduyhungiovn/"
+          timeout: 300            # thời gian chờ kết nối (giây)
+          command_timeout: 600    # thời gian chờ lệnh chạy (giây)
 
       # 6. Run post-deploy commands
       - name: Deploy and run artisan commands
@@ -49,6 +51,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
+          timeout: 300            # thời gian chờ kết nối (giây)
+          command_timeout: 600    # thời gian chờ lệnh chạy (giây)
           script: |
             cd /home/aduyhungiovn/hrm.duyhung.io.vn
             unzip -o ../deploy.zip

@@ -39,6 +39,13 @@ class ContractsController extends Controller
             'basic_salary' => 'required|numeric|min:0',
             'note' => 'nullable|string',
             'status' => 'required|string|in:pending,active,expired',
+        ],[
+            'employee_id.exists' => 'Nhân viên không tồn tại trong hệ thống.',
+            'employee_id.required' => 'Vui lòng chọn nhân viên.',
+            'employee_id.integer' => 'Giá trị không hợp lệ.',
+            'start_date.required' => 'Vui lòng nhập ngày bắt đầu hợp đồng.',
+            'end_date.after_or_equal' => 'Ngày kết thúc phải sau hoặc bằng ngày bắt đầu.',
+            'status.in' => 'Trạng thái hợp đồng không hợp lệ.',
         ]);
 
         Contracts::create($validatedData);
