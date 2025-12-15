@@ -66,7 +66,7 @@ return [
         'name' => 'tên',
         'email' => 'email',
         'password' => 'mật khẩu',
-        'password_confirmation' => 'xác nhận mật khẩu',
+        'password_confirmation' => 'xác nhận mật khẩu.',
     ],
 
 ];
