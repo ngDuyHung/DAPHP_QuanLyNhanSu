@@ -75,14 +75,34 @@
                         <span class="badge bg-danger">Hết hiệu lực</span>
                         @endif
                     </td>
-                    <td>
-                        <a href="{{ route('contracts.edit', $contract->contract_id) }}" class="btn btn-sm btn-warning">Sửa</a>
-                        <form action="{{ route('contracts.destroy', $contract->contract_id) }}" method="POST" style="display:inline-block;">
+                    <td class="d-flex gap-2 align-items-center">
+
+                        <!-- Gia hạn hợp đồng -->
+                        <form action="{{ route('contracts.renew', $contract->contract_id) }}" method="post" class="d-flex align-items-center">
+                            @csrf
+                            @method('PUT')
+                            <input type="date" name="end_date" class="form-control form-control-sm me-2" placeholder="Ngày kết thúc">
+                            <button type="submit" class="btn btn-primary btn-sm">
+                                <i class="bi bi-arrow-repeat"></i> Gia hạn
+                            </button>
+                        </form>
+
+                        <!-- Sửa hợp đồng -->
+                        <a href="{{ route('contracts.edit', $contract->contract_id) }}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil-square"></i> Sửa
+                        </a>
+
+                        <!-- Xóa hợp đồng -->
+                        <form action="{{ route('contracts.destroy', $contract->contract_id) }}" method="POST" onsubmit="return confirm('Bạn có chắc chắn muốn xóa hợp đồng này không?')">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa hợp đồng này không?')">Xóa</button>
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="bi bi-trash"></i> Xóa
+                            </button>
                         </form>
+
                     </td>
+
                 </tr>
                 @endforeach
             </tbody>

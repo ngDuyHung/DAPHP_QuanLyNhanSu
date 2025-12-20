@@ -88,6 +88,15 @@ class EmployeesController extends Controller
             'user_id' => 'integer|nullable',
             'auto_createAC' => 'sometimes|boolean',
             'img_link' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ],[
+            'dob.date' => 'Ngày tháng không hợp lệ.',
+            'hire_date.date' => 'Ngày tháng không hợp lệ.',
+            'email.unique' => 'Email đã tồn tại trong hệ thống.',
+            'phone.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
+            'auto_createAC.boolean' => 'Giá trị tự động tạo tài khoản không hợp lệ.',
+            'img_link.image' => 'Tệp tải lên phải là ảnh.',
+            'img_link.mimes' => 'Ảnh phải có định dạng: jpeg, png, jpg, gif.',
+            'img_link.max' => 'Kích thước ảnh không được vượt quá 2MB.',
         ]);
 
         // Xử lý upload ảnh
@@ -162,6 +171,14 @@ class EmployeesController extends Controller
             'position' => 'required|string|max:255',
             'user_id' => 'integer|nullable',
             'img_link' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ],[
+            'dob.date' => 'Ngày tháng không hợp lệ.',
+            'hire_date.date' => 'Ngày tháng không hợp lệ.',
+            'email.unique' => 'Email đã tồn tại trong hệ thống.',
+            'phone.max' => 'Số điện thoại không được vượt quá 20 ký tự.',
+            'img_link.image' => 'Tệp tải lên phải là ảnh.',
+            'img_link.mimes' => 'Ảnh phải có định dạng: jpeg, png, jpg, gif.',
+            'img_link.max' => 'Kích thước ảnh không được vượt quá 2MB.',
         ]);
 
         // Xử lý upload ảnh mới

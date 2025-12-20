@@ -91,6 +91,21 @@ class ContractsController extends Controller
         return redirect()->route('contracts.index')->with('success', 'Cập nhật hợp đồng thành công.');
     }
 
+    public function renew(Request $request, String $contract_id)
+    {
+        $validate = $request->validate([
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+        $contract = Contracts::findOrFail($contract_id);
+       
+        $newEndDate =$validate['end_date'];
+        $contract->update([
+            'end_date' => $newEndDate,
+            'status' => 'active',
+        ]);
+        return redirect()->route('contracts.index')->with('success', 'Gia hạn hợp đồng thành công.');
+    }
+
     /**
      * Remove the specified resource from storage.
      */
