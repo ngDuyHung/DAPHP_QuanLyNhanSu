@@ -22,7 +22,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::put('/contracts/{contract}/renew', [App\Http\Controllers\admin\ContractsController::class, 'renew'])
     ->name('contracts.renew');
 
-
+Route::post('/salary/calculate', [App\Http\Controllers\admin\SalaryController::class, 'calculate'])->name('salary.calculate');
 //client 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('client.home');
 Route::get('/client/salary/{employee_id}', [App\Http\Controllers\client\SalaryController::class, 'show'])->name('client.salary.show');   

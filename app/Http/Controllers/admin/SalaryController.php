@@ -143,4 +143,79 @@ class SalaryController extends Controller
         $salary->delete();
         return redirect()->route('salary.index')->with('success', 'Xóa bảng lương thành công.');
     }
+
+    public function calculate(Request $request)
+{
+    $month = $request->month ?? date('m');
+    $year = $request->year ?? date('Y');
+
+    // Lấy tất cả nhân viên có hợp đồng đang hiệu lực (active)
+    $employees = Employees::whereHas('contracts', function($q) {
+        $q->where('status', 'active');
+    })->with(['contracts' => function($q) {
+        $q->where('status', 'active');
+    }])->get();
+
+    $calculatedCount = 0;
+
+    foreach ($employees as $employee) {
+        // Kiểm tra xem đã tính lương cho nhân viên này trong tháng này chưa
+        $exists = Salary::where('employee_id', $employee->employee_id)
+                        ->where('month', $month)
+                        ->where('year', $year)
+                        ->exists();
+        if ($exists) continue;
+
+        // 1. LẤY LƯƠNG CƠ BẢN TỪ HỢP ĐỒNG THỰC TẾ
+        $contract = $employee->contracts->first();
+        $basicSalary = $contract->basic_salary; // Lấy từ bảng contracts
+
+        // 2. TÍNH NGÀY CÔNG THỰC TẾ TỪ CHẤM CÔNG
+        // Đếm số ngày có dữ liệu trong bảng attendance
+        $actualWorkDays = \App\Models\Attendance::where('employee_id', $employee->employee_id)
+            ->whereMonth('date', $month)
+            ->whereYear('date', $year)
+            ->count();
+
+        // 3. LẤY THƯỞNG/PHẠT THỰC TẾ
+        // Tổng tiền thưởng từ bảng rewards_discipline [type = reward]
+        $bonus = \App\Models\Rewards_Discipline::where('employee_id', $employee->employee_id)
+            ->where('type', 'reward')
+            ->whereMonth('date_recorded', $month)
+            ->whereYear('date_recorded', $year)
+            ->sum('amount');
+
+        // Tổng tiền phạt từ bảng rewards_discipline [type = discipline]
+        $deduction = \App\Models\Rewards_Discipline::where('employee_id', $employee->employee_id)
+            ->where('type', 'discipline')
+            ->whereMonth('date_recorded', $month)
+            ->whereYear('date_recorded', $year)
+            ->sum('amount');
+
+        // 4. CÔNG THỨC TÍNH LƯƠNG
+        // lương cơ bản trong hợp đồng là lương cho một tháng làm đủ.
+        //tính như sau: (Lương CB / 26 ngày tiêu chuẩn) * Ngày công thực tế
+        $standardDays = 26; 
+        $salaryByWorkDays = ($basicSalary / $standardDays) * $actualWorkDays;
+        
+        $totalSalary = $salaryByWorkDays + $bonus - $deduction;
+
+        // 5. LƯU VÀO BẢNG SALARY
+        Salary::create([
+            'employee_id'  => $employee->employee_id,
+            'month'        => $month,
+            'year'         => $year,
+            'work_day'     => $actualWorkDays,
+            'basic_salary' => $basicSalary,
+            'allowance'    => 0, 
+            'bonus'        => $bonus,
+            'deduction'    => $deduction,
+            'total_salary' => $totalSalary
+        ]);
+
+        $calculatedCount++;
+    }
+
+    return redirect()->route('salary.index')->with('success', "Đã tính lương cho $calculatedCount nhân viên dựa trên dữ liệu thực tế.");
+}
 }
