@@ -11,10 +11,45 @@ class AttendanceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $attendances = Attendance::with('employee')->orderBy('date', 'desc')->get();
-        return view('admin.attendance.index', compact('attendances'));
+        $query = Attendance::with('employee');
+
+        // Tìm kiếm theo nhân viên
+        if ($request->filled('search')) {
+            $query->whereHas('employee', function($q) use ($request) {
+                $q->where('full_name', 'LIKE', "%{$request->search}%")
+                  ->orWhere('employee_id', 'LIKE', "%{$request->search}%");
+            });
+        }
+
+        // Lọc theo ngày
+        if ($request->filled('date_from')) {
+            $query->where('date', '>=', $request->date_from);
+        }
+        
+        if ($request->filled('date_to')) {
+            $query->where('date', '<=', $request->date_to);
+        }
+
+        // Lọc theo trạng thái check-out
+        if ($request->filled('status')) {
+            if ($request->status == 'complete') {
+                $query->whereNotNull('check_out');
+            } elseif ($request->status == 'incomplete') {
+                $query->whereNull('check_out');
+            }
+        }
+
+        // Lọc theo nhân viên cụ thể
+        if ($request->filled('employee_id')) {
+            $query->where('employee_id', $request->employee_id);
+        }
+
+        $attendances = $query->orderBy('date', 'desc')->paginate(20)->withQueryString();
+        $employees = Employees::all();
+        
+        return view('admin.attendance.index', compact('attendances', 'employees'));
     }
 
     /**

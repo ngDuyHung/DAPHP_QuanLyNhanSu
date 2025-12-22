@@ -12,6 +12,69 @@
         </a>
     </div>
 
+    <!-- Search Form -->
+    <div class="card mb-4">
+        <div class="card-body pt-2 pb-2">
+            <form method="GET" action="{{ route('leaves.index') }}" class="row g-3">
+                <div class="col-md-2">
+                    <label class="form-label mb-1 small">Tên/Mã nhân viên</label>
+                    <input type="text" name="search" class="form-control" placeholder="Tìm nhân viên..." value="{{ request('search') }}">
+                </div>
+                
+                <div class="col-md-2">
+                    <label class="form-label mb-1 small">Nhân viên</label>
+                    <select name="employee_id" class="form-select">
+                        <option value="">-- Tất cả --</option>
+                        @foreach($employees as $employee)
+                        <option value="{{ $employee->employee_id }}" {{ request('employee_id') == $employee->employee_id ? 'selected' : '' }}>
+                            {{ $employee->full_name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label mb-1 small">Loại phép</label>
+                    <select name="leave_type" class="form-select">
+                        <option value="">-- Tất cả --</option>
+                        <option value="Nghỉ phép năm" {{ request('leave_type') == 'Nghỉ phép năm' ? 'selected' : '' }}>Nghỉ phép năm</option>
+                        <option value="Nghỉ ốm" {{ request('leave_type') == 'Nghỉ ốm' ? 'selected' : '' }}>Nghỉ ốm</option>
+                        <option value="Nghỉ việc cá nhân" {{ request('leave_type') == 'Nghỉ việc cá nhân' ? 'selected' : '' }}>Nghỉ việc cá nhân</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label mb-1 small">Trạng thái</label>
+                    <select name="status" class="form-select">
+                        <option value="">-- Tất cả --</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Chờ duyệt</option>
+                        <option value="approved" {{ request('status') == 'approved' ? 'selected' : '' }}>Đã duyệt</option>
+                        <option value="rejected" {{ request('status') == 'rejected' ? 'selected' : '' }}>Từ chối</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label mb-1 small">Từ ngày</label>
+                    <input type="date" name="start_date_from" class="form-control" value="{{ request('start_date_from') }}">
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label mb-1 small">Đến ngày</label>
+                    <input type="date" name="start_date_to" class="form-control" value="{{ request('start_date_to') }}">
+                </div>
+
+                <div class="col-md-12 d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bx bx-search-alt"></i> Tìm kiếm
+                    </button>
+                    <a href="{{ route('leaves.index') }}" class="btn btn-outline-secondary">
+                        <i class="bx bx-reset"></i> Xóa bộ lọc
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="card shadow-sm border-0 rounded-3">
         <div class="card-header bg-white border-bottom">
             <ul class="nav nav-tabs card-header-tabs" id="viewTabs" role="tablist">
@@ -127,6 +190,13 @@
                             @endforeach
                         </tbody>
                     </table>
+                    
+                    <!-- Pagination -->
+                    <div class="p-3">
+                        <div class="d-flex justify-content-center">
+                            {{ $leaves->links() }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -14,6 +14,63 @@
             </div>
         </div>
     </div>
+
+    <!-- Form tìm kiếm -->
+    <div class="card-body pt-2 pb-2">
+        <form method="GET" action="{{ route('rewards.index') }}" class="mb-3">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Nhân viên</label>
+                    <select name="employee_id" class="form-select">
+                        <option value="">Tất cả nhân viên</option>
+                        @foreach($employees as $employee)
+                            <option value="{{ $employee->employee_id }}" 
+                                {{ request('employee_id') == $employee->employee_id ? 'selected' : '' }}>
+                                {{ $employee->full_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Loại</label>
+                    <select name="type" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="reward" {{ request('type') == 'reward' ? 'selected' : '' }}>Thưởng</option>
+                        <option value="discipline" {{ request('type') == 'discipline' ? 'selected' : '' }}>Phạt</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Tiêu đề</label>
+                    <input type="text" name="title" class="form-control" placeholder="Tìm theo tiêu đề" value="{{ request('title') }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Ngày từ</label>
+                    <input type="date" name="date_from" class="form-control" value="{{ request('date_from') }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Đến ngày</label>
+                    <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Số tiền tối thiểu</label>
+                    <input type="number" name="amount_min" class="form-control" placeholder="0" value="{{ request('amount_min') }}">
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Số tiền tối đa</label>
+                    <input type="number" name="amount_max" class="form-control" placeholder="0" value="{{ request('amount_max') }}">
+                </div>
+                <div class="col-md-8 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="bx bx-search"></i> Tìm kiếm
+                    </button>
+                    <a href="{{ route('rewards.index') }}" class="btn btn-secondary">
+                        <i class="bx bx-reset"></i> Đặt lại
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+    
     <div class="table-responsive text-nowrap">
         <table class="table">
             <thead>
@@ -84,6 +141,13 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="card-footer">
+        <div class="d-flex justify-content-center">
+            {{ $rewards->links() }}
+        </div>
     </div>
 </div>
 <!--/ Basic Bootstrap Table -->

@@ -55,7 +55,7 @@ class EmployeesController extends Controller
             $query->where('hire_date', '<=', $request->hire_date_to);
         }
 
-        $employees = $query->get();
+        $employees = $query->paginate(15)->withQueryString();
         $departments = \App\Models\Departments::all();
         
         return view('admin.employees.index', compact('employees', 'departments'));

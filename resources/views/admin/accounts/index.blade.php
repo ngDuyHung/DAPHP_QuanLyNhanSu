@@ -14,6 +14,46 @@
             </div>
         </div>
     </div>
+
+    <!-- Form tìm kiếm -->
+    <div class="card-body pt-2 pb-2">
+        <form method="GET" action="{{ route('accounts.index') }}" class="mb-3">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Tìm kiếm</label>
+                    <input type="text" name="search" class="form-control" 
+                           placeholder="Tìm theo tên hoặc email" 
+                           value="{{ request('search') }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Vai trò</label>
+                    <select name="role" class="form-select">
+                        <option value="">Tất cả vai trò</option>
+                        <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Quản trị viên</option>
+                        <option value="hr" {{ request('role') == 'hr' ? 'selected' : '' }}>Nhân sự</option>
+                        <option value="employee" {{ request('role') == 'employee' ? 'selected' : '' }}>Nhân viên</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Liên kết nhân viên</label>
+                    <select name="employee_status" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="linked" {{ request('employee_status') == 'linked' ? 'selected' : '' }}>Đã liên kết</option>
+                        <option value="unlinked" {{ request('employee_status') == 'unlinked' ? 'selected' : '' }}>Chưa liên kết</option>
+                    </select>
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="bx bx-search"></i> Tìm
+                    </button>
+                    <a href="{{ route('accounts.index') }}" class="btn btn-secondary">
+                        <i class="bx bx-reset"></i> Reset
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+
     <div class="table-responsive text-nowrap">
         <table class="table">
             <thead>
@@ -78,6 +118,13 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="card-footer">
+        <div class="d-flex justify-content-center">
+            {{ $accounts->links() }}
+        </div>
     </div>
 </div>
 <!--/ Basic Bootstrap Table -->

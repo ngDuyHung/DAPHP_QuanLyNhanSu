@@ -14,11 +14,62 @@
             </div>
         </div>
     </div>
+
+    <!-- Form tìm kiếm -->
+    <div class="card-header pt-2 pb-2">
+        <form method="GET" action="{{ route('attendance.index') }}" class="row g-1">
+            <div class="col-md-3">
+                <label class="form-label mb-1 small">Tên/Mã nhân viên</label>
+                <input type="text" name="search" class="form-control" placeholder="Tìm nhân viên..." value="{{ request('search') }}">
+            </div>
+            
+            <div class="col-md-2">
+                <label class="form-label mb-1 small">Nhân viên</label>
+                <select name="employee_id" class="form-select">
+                    <option value="">-- Tất cả --</option>
+                    @foreach($employees as $employee)
+                    <option value="{{ $employee->employee_id }}" {{ request('employee_id') == $employee->employee_id ? 'selected' : '' }}>
+                        {{ $employee->full_name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label mb-1 small">Từ ngày</label>
+                <input type="date" name="date_from" class="form-control" value="{{ request('date_from') }}">
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label mb-1 small">Đến ngày</label>
+                <input type="date" name="date_to" class="form-control" value="{{ request('date_to') }}">
+            </div>
+
+            <div class="col-md-1">
+                <label class="form-label mb-1 small">Trạng thái</label>
+                <select name="status" class="form-select">
+                    <option value="">-- Tất cả --</option>
+                    <option value="complete" {{ request('status') == 'complete' ? 'selected' : '' }}>Đầy đủ</option>
+                    <option value="incomplete" {{ request('status') == 'incomplete' ? 'selected' : '' }}>Thiếu</option>
+                </select>
+            </div>
+
+            <div class="col-md-1 d-flex align-items-end gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="bx bx-search-alt"></i> Tìm
+                </button>
+                <a href="{{ route('attendance.index') }}" class="btn btn-outline-secondary">
+                    <i class="bx bx-reset"></i>
+                </a>
+            </div>
+        </form>
+    </div>
+    <!-- / Form tìm kiếm -->
     <div class="table-responsive text-nowrap">
         <table class="table">
             <thead>
                 <tr>
-                    <th>Mã chấm công</th>
+                    <th>Mã cc</th>
                     <th>Nhân viên</th>
                     <th>Ngày</th>
                     <th>Giờ vào</th>
@@ -70,17 +121,24 @@
                         @endif
                     </td>
                     <td>
-                        <a href="{{ route('attendance.edit', $attendance->attendance_id) }}" class="btn btn-sm btn-warning">Sửa</a>
+                        <a href="{{ route('attendance.edit', $attendance->attendance_id) }}" class="btn btn-sm btn-outline-warning"> <i class="bx bx-edit"></i></a>
                         <form action="{{ route('attendance.destroy', $attendance->attendance_id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa bản ghi chấm công này không?')">Xóa</button>
+                            <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa bản ghi chấm công này không?')"> <i class="bx bx-trash"></i></button>
                         </form>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+    </div>
+    
+    <!-- Pagination -->
+    <div class="card-footer">
+        <div class="d-flex justify-content-center">
+            {{ $attendances->links() }}
+        </div>
     </div>
 </div>
 <!--/ Basic Bootstrap Table -->

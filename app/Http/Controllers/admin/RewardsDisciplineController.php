@@ -11,10 +11,45 @@ class RewardsDisciplineController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $rewards = Rewards_discipline::with('employee')->orderBy('date_recorded', 'desc')->get();
-        return view('admin.rewards.index', compact('rewards'));
+        $query = Rewards_discipline::with('employee');
+
+        // Tìm kiếm theo nhân viên
+        if ($request->filled('employee_id')) {
+            $query->where('employee_id', $request->employee_id);
+        }
+
+        // Lọc theo loại (thưởng/phạt)
+        if ($request->filled('type')) {
+            $query->where('type', $request->type);
+        }
+
+        // Tìm kiếm theo tiêu đề
+        if ($request->filled('title')) {
+            $query->where('title', 'LIKE', '%' . $request->title . '%');
+        }
+
+        // Lọc theo ngày ghi nhận
+        if ($request->filled('date_from')) {
+            $query->where('date_recorded', '>=', $request->date_from);
+        }
+        if ($request->filled('date_to')) {
+            $query->where('date_recorded', '<=', $request->date_to);
+        }
+
+        // Lọc theo số tiền
+        if ($request->filled('amount_min')) {
+            $query->where('amount', '>=', $request->amount_min);
+        }
+        if ($request->filled('amount_max')) {
+            $query->where('amount', '<=', $request->amount_max);
+        }
+
+        $rewards = $query->orderBy('date_recorded', 'desc')->paginate(20)->withQueryString();
+        $employees = Employees::all();
+        
+        return view('admin.rewards.index', compact('rewards', 'employees'));
     }
 
     /**

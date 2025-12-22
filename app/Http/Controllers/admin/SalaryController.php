@@ -11,10 +11,46 @@ class SalaryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $salaries = Salary::with('employee')->orderBy('year', 'desc')->orderBy('month', 'desc')->get();
-        return view('admin.salary.index', compact('salaries'));
+        $query = Salary::with('employee');
+
+        // Tìm kiếm theo nhân viên
+        if ($request->filled('search')) {
+            $query->whereHas('employee', function($q) use ($request) {
+                $q->where('full_name', 'LIKE', "%{$request->search}%")
+                  ->orWhere('employee_id', 'LIKE', "%{$request->search}%");
+            });
+        }
+
+        // Lọc theo tháng
+        if ($request->filled('month')) {
+            $query->where('month', $request->month);
+        }
+
+        // Lọc theo năm
+        if ($request->filled('year')) {
+            $query->where('year', $request->year);
+        }
+
+        // Lọc theo khoảng lương
+        if ($request->filled('min_salary')) {
+            $query->where('total_salary', '>=', $request->min_salary);
+        }
+        
+        if ($request->filled('max_salary')) {
+            $query->where('total_salary', '<=', $request->max_salary);
+        }
+
+        // Lọc theo nhân viên cụ thể
+        if ($request->filled('employee_id')) {
+            $query->where('employee_id', $request->employee_id);
+        }
+
+        $salaries = $query->orderBy('year', 'desc')->orderBy('month', 'desc')->paginate(20)->withQueryString();
+        $employees = Employees::all();
+        
+        return view('admin.salary.index', compact('salaries', 'employees'));
     }
 
     /**

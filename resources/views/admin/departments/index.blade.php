@@ -15,6 +15,49 @@
         </a>
     </div>
 
+    <!-- Search Form -->
+    <div class="card mb-2">
+        <div class="card-body pt-2 pb-2">
+            <form method="GET" action="{{ route('departments.index') }}" class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label mb-1 small">Tên phòng ban</label>
+                    <input type="text" name="search" class="form-control" placeholder="Nhập tên phòng ban..." value="{{ request('search') }}">
+                </div>
+                
+                <div class="col-md-3">
+                    <label class="form-label mb-1 small">Trưởng phòng</label>
+                    <select name="manager_id" class="form-select">
+                        <option value="">-- Tất cả --</option>
+                        @foreach($managers as $manager)
+                        <option value="{{ $manager->employee_id }}" {{ request('manager_id') == $manager->employee_id ? 'selected' : '' }}>
+                            {{ $manager->full_name }}
+                        </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label mb-1 small">Số NV tối thiểu</label>
+                    <input type="number" name="min_employees" class="form-control" placeholder="0" value="{{ request('min_employees') }}" min="0">
+                </div>
+
+                <div class="col-md-2">
+                    <label class="form-label mb-1 small">Số NV tối đa</label>
+                    <input type="number" name="max_employees" class="form-control" placeholder="100" value="{{ request('max_employees') }}" min="0">
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bx bx-search-alt"></i> Tìm
+                    </button>
+                    <a href="{{ route('departments.index') }}" class="btn btn-outline-secondary">
+                        <i class="bx bx-reset"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- Departments Grid -->
     <div class="row g-4">
         @forelse($departments as $department)
@@ -207,5 +250,10 @@
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
 </style>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-center mt-4">
+    {{ $departments->links() }}
+</div>
 
 @endsection

@@ -11,10 +11,50 @@ class DepartmentsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $departments = Departments::with(['manager', 'employees.contracts'])->get();
-        return view('admin.departments.index', compact('departments'));
+        $query = Departments::with(['manager', 'employees.contracts']);
+
+        // Tìm kiếm theo tên phòng ban
+        if ($request->filled('search')) {
+            $query->where('name', 'LIKE', "%{$request->search}%");
+        }
+
+        // Lọc theo trưởng phòng
+        if ($request->filled('manager_id')) {
+            $query->where('manager_id', $request->manager_id);
+        }
+
+        // Lọc theo số lượng nhân viên (min-max)
+        if ($request->filled('min_employees') || $request->filled('max_employees')) {
+            $allDepts = $query->get();
+            
+            if ($request->filled('min_employees')) {
+                $allDepts = $allDepts->filter(function($dept) use ($request) {
+                    return $dept->employees->count() >= $request->min_employees;
+                });
+            }
+            
+            if ($request->filled('max_employees')) {
+                $allDepts = $allDepts->filter(function($dept) use ($request) {
+                    return $dept->employees->count() <= $request->max_employees;
+                });
+            }
+            
+            $departments = new \Illuminate\Pagination\LengthAwarePaginator(
+                $allDepts->forPage(request('page', 1), 12),
+                $allDepts->count(),
+                12,
+                request('page', 1),
+                ['path' => request()->url(), 'query' => request()->query()]
+            );
+        } else {
+            $departments = $query->paginate(12)->withQueryString();
+        }
+
+        $managers = Employees::whereNotNull('employee_id')->get();
+        
+        return view('admin.departments.index', compact('departments', 'managers'));
     }
 
     /**

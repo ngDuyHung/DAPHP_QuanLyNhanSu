@@ -12,6 +12,71 @@
         </a>
     </div>
 
+    <!-- Form tìm kiếm -->
+    <div class="card mb-4">
+        <div class="card-body pt-2 pb-2">
+            <form method="GET" action="{{ route('contracts.index') }}">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label">Nhân viên</label>
+                        <select name="employee_id" class="form-select">
+                            <option value="">Tất cả nhân viên</option>
+                            @foreach($employees as $employee)
+                                <option value="{{ $employee->employee_id }}" 
+                                    {{ request('employee_id') == $employee->employee_id ? 'selected' : '' }}>
+                                    {{ $employee->full_name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label">Loại hợp đồng</label>
+                        <select name="contract_type" class="form-select">
+                            <option value="">Tất cả loại</option>
+                            <option value="Hợp đồng thử việc" {{ request('contract_type') == 'Hợp đồng thử việc' ? 'selected' : '' }}>HĐ thử việc</option>
+                            <option value="Hợp đồng xác định thời hạn" {{ request('contract_type') == 'Hợp đồng xác định thời hạn' ? 'selected' : '' }}>HĐ xác định thời hạn</option>
+                            <option value="Hợp đồng không xác định thời hạn" {{ request('contract_type') == 'Hợp đồng không xác định thời hạn' ? 'selected' : '' }}>HĐ không xác định TH</option>
+                            <option value="Hợp đồng thời vụ" {{ request('contract_type') == 'Hợp đồng thời vụ' ? 'selected' : '' }}>HĐ thời vụ</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Trạng thái</label>
+                        <select name="status" class="form-select">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Chưa hiệu lực</option>
+                            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Đang hiệu lực</option>
+                            <option value="expired" {{ request('status') == 'expired' ? 'selected' : '' }}>Hết hiệu lực</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Ngày bắt đầu từ</label>
+                        <input type="date" name="start_date_from" class="form-control" value="{{ request('start_date_from') }}">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Đến ngày</label>
+                        <input type="date" name="start_date_to" class="form-control" value="{{ request('start_date_to') }}">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Lương tối thiểu</label>
+                        <input type="number" name="salary_min" class="form-control" placeholder="0" value="{{ request('salary_min') }}">
+                    </div>
+                    <div class="col-md-2">
+                        <label class="form-label">Lương tối đa</label>
+                        <input type="number" name="salary_max" class="form-control" placeholder="0" value="{{ request('salary_max') }}">
+                    </div>
+                    <div class="col-md-8 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary me-2">
+                            <i class="bx bx-search"></i> Tìm kiếm
+                        </button>
+                        <a href="{{ route('contracts.index') }}" class="btn btn-secondary">
+                            <i class="bx bx-reset"></i> Đặt lại
+                        </a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="row g-2">
         @foreach($contracts as $contract)
         <div class="col-12 col-md-6 col-xl-3 mb-3">
@@ -103,6 +168,11 @@
             </div>
         </div>
         @endforeach
+    </div>
+    
+    <!-- Pagination -->
+    <div class="d-flex justify-content-center mt-4">
+        {{ $contracts->links() }}
     </div>
 </div>
 

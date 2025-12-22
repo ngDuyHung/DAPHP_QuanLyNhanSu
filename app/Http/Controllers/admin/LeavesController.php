@@ -11,10 +11,46 @@ class LeavesController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $leaves = Leaves::with('employee')->orderBy('start_date', 'desc')->get();
-        return view('admin.leaves.index', compact('leaves'));
+        $query = Leaves::with('employee');
+
+        // Tìm kiếm theo nhân viên
+        if ($request->filled('search')) {
+            $query->whereHas('employee', function($q) use ($request) {
+                $q->where('full_name', 'LIKE', "%{$request->search}%")
+                  ->orWhere('employee_id', 'LIKE', "%{$request->search}%");
+            });
+        }
+
+        // Lọc theo loại phép
+        if ($request->filled('leave_type')) {
+            $query->where('leave_type', $request->leave_type);
+        }
+
+        // Lọc theo trạng thái
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Lọc theo khoảng thời gian
+        if ($request->filled('start_date_from')) {
+            $query->where('start_date', '>=', $request->start_date_from);
+        }
+        
+        if ($request->filled('start_date_to')) {
+            $query->where('start_date', '<=', $request->start_date_to);
+        }
+
+        // Lọc theo nhân viên cụ thể
+        if ($request->filled('employee_id')) {
+            $query->where('employee_id', $request->employee_id);
+        }
+
+        $leaves = $query->orderBy('start_date', 'desc')->paginate(20)->withQueryString();
+        $employees = Employees::all();
+        
+        return view('admin.leaves.index', compact('leaves', 'employees'));
     }
 
     /**

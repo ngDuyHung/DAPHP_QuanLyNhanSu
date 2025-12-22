@@ -11,10 +11,45 @@ class ContractsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $contracts = Contracts::with('employee')->orderBy('start_date', 'desc')->get();
-        return view('admin.contracts.index', compact('contracts'));
+        $query = Contracts::with('employee');
+
+        // Tìm kiếm theo nhân viên
+        if ($request->filled('employee_id')) {
+            $query->where('employee_id', $request->employee_id);
+        }
+
+        // Lọc theo loại hợp đồng
+        if ($request->filled('contract_type')) {
+            $query->where('contract_type', $request->contract_type);
+        }
+
+        // Lọc theo trạng thái
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Lọc theo ngày bắt đầu
+        if ($request->filled('start_date_from')) {
+            $query->where('start_date', '>=', $request->start_date_from);
+        }
+        if ($request->filled('start_date_to')) {
+            $query->where('start_date', '<=', $request->start_date_to);
+        }
+
+        // Lọc theo lương cơ bản
+        if ($request->filled('salary_min')) {
+            $query->where('basic_salary', '>=', $request->salary_min);
+        }
+        if ($request->filled('salary_max')) {
+            $query->where('basic_salary', '<=', $request->salary_max);
+        }
+
+        $contracts = $query->orderBy('start_date', 'desc')->paginate(12)->withQueryString();
+        $employees = Employees::all();
+        
+        return view('admin.contracts.index', compact('contracts', 'employees'));
     }
 
     /**

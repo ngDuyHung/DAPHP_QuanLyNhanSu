@@ -4,6 +4,7 @@ namespace App\Http\Controllers\client;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
+use App\Models\Contracts;
 use App\Models\Employees;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -40,16 +41,34 @@ class AttendanceController extends Controller
      */
     public function checkIn(Request $request)
     {
-        $employeeId =Employees::Where('user_id',Auth::id())->value('employee_id');  
+        $employee = Employees::Where('user_id', Auth::id())->first();
+
         $date = Carbon::now()->toDateString();   // "2025-12-08"
         $time = Carbon::now()->toTimeString();   // "13:45:10"
 
-        $attendance = Attendance::where('employee_id', $employeeId)->where('date', $date)->first();
+        if (!$employee) {
+            return redirect()->back()->with('error', 'Không tìm thấy nhân viên liên kết với tài khoản của bạn.');
+        }
+
+        //chưa có phòng ban không thể chấm công
+        if (!$employee->department_id) {
+            return redirect()->back()->with('error', 'Bạn chưa được phân công phòng ban, không thể chấm công!');
+        }
+
+        $latestContract = $employee->contracts()->latest('start_date')->first();
+        if (!$latestContract) {
+            return redirect()->back()->with('error', 'Bạn chưa có hợp đồng lao động, không thể chấm công!');
+        }
+        if ($latestContract->status !== 'active') {
+            return redirect()->back()->with('error', 'Hợp đồng lao động của bạn không ở trạng thái hiệu lực, không thể chấm công!');
+        }
+
+        $attendance = Attendance::where('employee_id', $employee->employee_id)->where('date', $date)->first();
         if ($attendance) {
             return redirect()->back()->with('error', 'Bạn đã điểm danh hôm nay vào lúc ' . $attendance->check_in . ' .');
         }
         Attendance::create([
-            'employee_id' => $employeeId,
+            'employee_id' => $employee->employee_id,
             'date' => $date,
             'check_in' => $time,
         ]);
@@ -59,11 +78,11 @@ class AttendanceController extends Controller
 
     public function checkOut(Request $request)
     {
-        $employeeId =Employees::Where('user_id',Auth::id())->value('employee_id');  
+        $employee = Employees::Where('user_id', Auth::id())->first();
         $date = Carbon::now()->toDateString();   // "2025-12-08"
         $time = Carbon::now()->toTimeString();   // "13:45:10"
 
-        $attendance = Attendance::where('employee_id', $employeeId)
+        $attendance = Attendance::where('employee_id', $employee->employee_id)
             ->where('date', $date)
             ->first();
 

@@ -14,9 +14,35 @@ class AccountsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $accounts = User::with('employee')->orderBy('created_at', 'desc')->get();
+        $query = User::with('employee');
+
+        // Tìm kiếm theo tên hoặc email
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%')
+                  ->orWhere('email', 'LIKE', '%' . $search . '%');
+            });
+        }
+
+        // Lọc theo role
+        if ($request->filled('role')) {
+            $query->where('role', $request->role);
+        }
+
+        // Lọc theo trạng thái liên kết nhân viên
+        if ($request->filled('employee_status')) {
+            if ($request->employee_status == 'linked') {
+                $query->whereNotNull('employee_id');
+            } elseif ($request->employee_status == 'unlinked') {
+                $query->whereNull('employee_id');
+            }
+        }
+
+        $accounts = $query->orderBy('created_at', 'desc')->paginate(15)->withQueryString();
+        
         return view('admin.accounts.index', compact('accounts'));
     }
 

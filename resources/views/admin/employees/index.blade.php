@@ -136,6 +136,13 @@
             </tbody>
         </table>
     </div>
+    
+    <!-- Pagination -->
+    <div class="card-footer">
+        <div class="d-flex justify-content-center">
+            {{ $employees->links() }}
+        </div>
+    </div>
 </div>
 <!--/ Basic Bootstrap Table -->
 
