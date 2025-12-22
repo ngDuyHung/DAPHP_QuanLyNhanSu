@@ -94,10 +94,22 @@ class ContractsController extends Controller
     public function renew(Request $request, String $contract_id)
     {
         $validate = $request->validate([
-            'end_date' => 'required|date|after_or_equal:start_date',
+            'end_date' => 'required|date|after:today',
+        ],[
+            'end_date.required' => 'Vui lòng chọn ngày gia hạn.',
+            'end_date.after' => 'Ngày gia hạn phải là ngày trong tương lai.',
         ]);
         $contract = Contracts::findOrFail($contract_id);
-       
+        if(!$contract){
+            return redirect()->route('contracts.index')->with('error', 'Hợp đồng không tồn tại.');
+        }
+        if($contract->status != 'active'){
+            return redirect()->route('contracts.index')->with('error', 'Chỉ có thể gia hạn hợp đồng đang hoạt động.');
+        }
+        if($validate['end_date'] <= $contract->end_date){
+            return redirect()->route('contracts.index')->with('error', 'Ngày gia hạn phải sau ngày kết thúc hiện tại của hợp đồng.');
+        }
+        
         $newEndDate =$validate['end_date'];
         $contract->update([
             'end_date' => $newEndDate,

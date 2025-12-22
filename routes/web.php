@@ -19,7 +19,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('reports', App\Http\Controllers\admin\ReportsController::class);
     Route::resource('accounts', App\Http\Controllers\admin\AccountsController::class);
 });
-Route::post('/contracts/renew',[App\Http\Controllers\admin\ContractsController::class, 'renew'])->name('contracts.renew');
+Route::put('/contracts/{contract}/renew', [App\Http\Controllers\admin\ContractsController::class, 'renew'])
+    ->name('contracts.renew');
 
 
 //client 
