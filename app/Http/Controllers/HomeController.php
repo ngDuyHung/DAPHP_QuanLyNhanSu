@@ -22,7 +22,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->except(['index']);
     }
 
     /**
@@ -32,11 +32,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if (Auth::user()->role == 'admin') {
-            return redirect()->route('dashboard');
-        } else {
-            return redirect()->route('home');
+        if (Auth::check()) {
+            if (Auth::user()->role == 'admin') {
+                return redirect()->route('dashboard');
+            } else {
+                return redirect()->route('client.home');
+            }
         }
+        return view('landing');
     }
 
     public function home()

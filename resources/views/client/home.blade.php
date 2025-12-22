@@ -11,7 +11,12 @@
         text-shadow: 0 0 10px rgba(105, 108, 255, 0.5);
     }
 </style>
-
+@if(!isset($employee)) 
+    <div class="alert alert-warning">
+        <h4 class="alert-heading">Chưa có thông tin nhân viên!</h4>
+        <p>Bạn chưa được liên kết với hồ sơ nhân viên nào. Vui lòng liên hệ quản trị viên để được hỗ trợ.</p>
+    </div>
+@else
 <div class="row">
     <!-- Profile Card -->
     <div class="col-md-4 mb-4">
@@ -162,4 +167,5 @@
         </div>
     </div>
 </div>
+@endif
 @endsection
