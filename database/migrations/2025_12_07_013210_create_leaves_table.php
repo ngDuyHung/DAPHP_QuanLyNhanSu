@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contracts', function (Blueprint $table) {
-            $table->integer('contract_id')->autoIncrement();
+        Schema::create('leaves', function (Blueprint $table) {
+            $table->integer('leave_id')->autoIncrement();
             $table->integer('employee_id')->nullable();
-            $table->string('contract_type', 100)->nullable();
+            $table->string('leave_type', 255)->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
-            $table->decimal('basic_salary', 10, 2);
-            $table->text('note')->nullable();
-            $table->enum('status', ['pending', 'active', 'expired'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending');
 
             $table->foreign('employee_id')
                   ->references('employee_id')
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contracts');
+        Schema::dropIfExists('leaves');
     }
 };

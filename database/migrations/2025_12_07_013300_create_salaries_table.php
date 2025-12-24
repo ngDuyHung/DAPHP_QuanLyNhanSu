@@ -11,15 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('contracts', function (Blueprint $table) {
-            $table->integer('contract_id')->autoIncrement();
+        Schema::create('salary', function (Blueprint $table) {
+            $table->integer('salary_id')->autoIncrement();
             $table->integer('employee_id')->nullable();
-            $table->string('contract_type', 100)->nullable();
-            $table->date('start_date')->nullable();
-            $table->date('end_date')->nullable();
+            $table->integer('month')->nullable();
+            $table->integer('year')->nullable();
+            $table->double('work_day')->nullable();
             $table->decimal('basic_salary', 10, 2);
-            $table->text('note')->nullable();
-            $table->enum('status', ['pending', 'active', 'expired'])->default('pending');
+            $table->decimal('allowance', 10, 2)->default(0.00);
+            $table->decimal('bonus', 10, 2)->default(0.00);
+            $table->decimal('deduction', 10, 2)->default(0.00);
+            $table->decimal('total_salary', 10, 2);
 
             $table->foreign('employee_id')
                   ->references('employee_id')
@@ -33,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('contracts');
+        Schema::dropIfExists('salary');
     }
 };

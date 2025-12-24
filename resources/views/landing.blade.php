@@ -413,7 +413,7 @@
                         <i class='bx bx-star me-1'></i> Giải pháp HRM số 1 Việt Nam
                     </span>
                     <h1 class="display-4 fw-bold mb-4 lh-base text-dark">
-                        Quản trị Nhân sự 4.0 <br>
+                        Quản trị Nhân sự 5.0 <br>
                         <span class="text-primary">Đơn giản hóa</span> mọi quy trình
                     </h1>
                     <p class="lead mb-5 text-muted" style="max-width: 500px;">

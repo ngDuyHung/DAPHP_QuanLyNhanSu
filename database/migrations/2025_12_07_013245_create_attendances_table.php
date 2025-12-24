@@ -11,9 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+        Schema::create('attendance', function (Blueprint $table) {
+            $table->integer('attendance_id')->autoIncrement();
+            $table->integer('employee_id')->nullable();
+            $table->date('date')->nullable();
+            $table->time('check_in')->nullable();
+            $table->time('check_out')->nullable();
+
+            $table->foreign('employee_id')
+                  ->references('employee_id')
+                  ->on('employees')
+                  ->onDelete('cascade');
         });
     }
 
@@ -22,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::dropIfExists('attendance');
     }
 };
