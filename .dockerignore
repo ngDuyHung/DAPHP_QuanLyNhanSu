@@ -1,0 +1,12 @@
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Docker volumes data
+mysql-data/
+redis-data/
+
+# Environment files (nhưng giữ .env.docker và .env.example)
+.env
+!.env.docker
+!.env.example
