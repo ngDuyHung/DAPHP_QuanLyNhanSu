@@ -39,7 +39,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           source: "deploy.zip"
-          target: "/home/tduyhungio/"
+          target: "/home/t1772298550/"
           timeout: 300s            # thời gian chờ kết nối (giây)
           command_timeout: 600s    # thời gian chờ lệnh chạy (giây)
 
