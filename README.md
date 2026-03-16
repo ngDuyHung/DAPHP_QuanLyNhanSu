@@ -1,59 +1,223 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📊 Hệ Thống Quản Lý Nhân Sự (HRM)
+**Giải pháp quản lý nhân sự tổng thể cho doanh nghiệp**
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+---
 
-## About Laravel
+## 🚀 Truy Cập Nhanh Hệ Thống
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Kênh | Thông Tin |
+|------|-----------|
+| 🌐 **Live Demo** | [hrm.duyhung.io.vn](https://hrm.duyhung.io.vn) |
+| 👤 **Tài Khoản Demo** | `duyhung456@gmail.com` |
+| 🔑 **Mật Khẩu** | `admin456` |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+> **Lưu ý:** Tài khoản demo có quyền quản trị viên. Hãy nhấp vào trang web để xem tất cả các tính năng.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+---
 
-## Learning Laravel
+## 💡 Giới Thiệu Dự Án
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+Đây là một **hệ thống quản lý nhân sự toàn diện** được xây dựng trên nền tảng **Laravel**, giúp doanh nghiệp:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- ✅ **Quản lý tất cả dữ liệu nhân viên** - Lưu trữ thông tin cá nhân, phòng ban, chức vụ trong một hệ thống tập trung
+- ✅ **Tính lương tự động** - Hệ thống tính toán lương cơ bản, phụ cấp, thưởng, phạt một cách độc lập
+- ✅ **Theo dõi chấm công** - Ghi nhận giờ vào/ra hàng ngày, tạo báo cáo chấm công chi tiết
+- ✅ **Quản lý đơn xin nghỉ** - Tiếp nhận, duyệt/từ chối đơn xin nghỉ từ nhân viên
+- ✅ **Quản lý hợp đồng** - Lưu trữ, theo dõi thời hạn, gia hạn hợp đồng nhân viên
+- ✅ **Ghi nhận khen thưởng/kỷ luật** - Lưu lại các hành động khen thưởng và kỷ luật của nhân viên
+- ✅ **Xuất báo cáo** - Tạo báo cáo Excel/PDF theo phòng ban, tháng/năm, nhân viên
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 📋 Các Tính Năng Chính
 
-### Premium Partners
+### 1️⃣ **Quản Lý Nhân Sự**
+- Thêm/sửa/xóa thông tin nhân viên
+- Xem lịch sử nhân viên theo phòng ban
+- Quản lý danh sách phòng ban
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 2️⃣ **Chấm Công**
+- Ghi nhận giờ vào/ra hàng ngày
+- Báo cáo chấm công chi tiết theo tháng
+- Tích hợp với tính lương tự động
 
-## Contributing
+### 3️⃣ **Lương & Thanh Toán**
+- Nhập lương cơ bản, phụ cấp, thưởng, phạt
+- **Tính lương tự động từ chấm công**
+- Xuất bảng lương chi tiết
+- Lịch sử lương theo tháng/năm
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4️⃣ **Quản Lý Đơn Xin Nghỉ**
+- Nhân viên nộp đơn xin nghỉ
+- Admin duyệt/từ chối
+- Báo cáo ngày nghỉ phép
 
-## Code of Conduct
+### 5️⃣ **Hợp Đồng Lao Động**
+- Lưu thông tin hợp đồng
+- Theo dõi ngày hết hạn
+- Gia hạn hợp đồng
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 6️⃣ **Khen Thưởng & Kỷ Luật**
+- Ghi nhận các hành động khen thưởng
+- Ghi nhận các hành động kỷ luật
+- Liên kết với lương (thưởng/phạt)
 
-## Security Vulnerabilities
+### 7️⃣ **Báo Cáo & Xuất Dữ Liệu**
+- **Báo cáo nhân viên theo phòng ban** (Excel/PDF)
+- **Báo cáo chấm công** - Lọc theo tháng, năm, nhân viên
+- **Báo cáo nghỉ phép** - Xem thống kê ngày nghỉ
+- **Báo cáo lương** - Xuất bảng lương theo tháng/phòng ban
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+## 🎯 Lợi Ích Cho Phòng HR
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+| Lợi Ích | Giải Thích |
+|---------|-----------|
+| ⏱️ **Tiết Kiệm Thời Gian** | Tự động tính lương, không cần tính toán thủ công |
+| 📑 **Dữ Liệu Tập Trung** | Tất cả thông tin nhân viên ở một nơi, dễ tìm kiếm |
+| 📊 **Báo Cáo Chính Xác** | Xuất báo cáo Excel/PDF chuyên nghiệp |
+| 👤 **Quản Lý Dễ Dàng** | Giao diện thân thiện, dễ sử dụng |
+| 🔐 **An Toàn Dữ Liệu** | Lưu trữ an toàn trên cloud, sao lưu định kỳ |
+| 📱 **Truy Cập Mọi Lúc Mọi Nơi** | Hệ thống web, truy cập từ máy tính, điện thoại |
+
+---
+
+## 🏗️ Kiến Trúc Hệ Thống
+
+```
+Backend: Laravel 12 + MySQL
+Frontend: Blade Templates (PHP)
+Deployment: Docker + Nginx
+Reporting: Excel (XLSX) + PDF
+```
+
+---
+
+## 👥 Quyền Người Dùng
+
+### 🔴 **Quản Trị Viên (Admin)**
+- Toàn quyền quản lý và cấu hình hệ thống
+- Quản lý tất cả nhân viên, phòng ban
+- Phê duyệt đơn xin nghỉ
+- Tính lương, quản lý hợp đồng
+- Xuất báo cáo
+- Quản lý tài khoản người dùng
+
+### 🔵 **Nhân Viên (Employee)**
+- Xem thông tin cá nhân
+- Nộp đơn xin nghỉ
+- Xem lịch sử chấm công
+- Xem bảng lương cá nhân
+
+---
+
+## 🗄️ Cơ Sở Dữ Liệu
+
+### Các Bảng Chính
+- **employees** - Thông tin nhân viên
+- **departments** - Danh sách phòng ban
+- **attendance** - Chấm công
+- **leaves** - Đơn xin nghỉ
+- **salaries** - Lương nhân viên
+- **contracts** - Hợp đồng lao động
+- **rewards_discipline** - Khen thưởng và kỷ luật
+
+### Mối Quan Hệ
+```
+employees (nhiều) ← → (một) departments
+employees (nhiều) ← → (nhiều) attendance
+employees (nhiều) ← → (nhiều) leaves
+employees (nhiều) ← → (nhiều) salaries
+employees (nhiều) ← → (nhiều) contracts
+employees (nhiều) ← → (nhiều) rewards_discipline
+```
+
+---
+
+## 📁 Cấu Trúc Thư Mục
+
+```
+app/
+├── Models/                    # Eloquent Models
+│   ├── Employee, Department, Attendance, Leaves, etc.
+├── Http/
+│   ├── Controllers/          # Xử lý logic routes
+│   └── Middleware/           # Kiểm tra quyền
+├── Exports/
+│   └── ReportExport.php      # Export Excel/PDF
+
+database/
+├── migrations/              # Tạo bảng cơ sở dữ liệu
+└── seeders/                 # Dữ liệu mẫu
+
+routes/
+├── web.php                  # Routes ứng dụng
+
+resources/
+└── views/                   # Giao diện HTML (Blade)
+```
+
+---
+
+## 🔧 Hướng Dẫn Nhanh
+
+### Khởi Động Hệ Thống (Local)
+
+```bash
+# 1. Clone dự án
+git clone <repo-url>
+cd DAPHP_QuanLyNhanSu
+
+# 2. Cài đặt dependencies
+composer install
+npm install
+
+# 3. Tạo file .env
+cp .env.example .env
+php artisan key:generate
+
+# 4. Chạy migration
+php artisan migrate
+
+# 5. Khởi động server
+php artisan serve
+# Truy cập: http://localhost:8000
+```
+
+### Sử Dụng Docker
+
+```bash
+# Chạy docker-compose
+docker-compose up -d
+
+# Chạy migration
+docker-compose exec app php artisan migrate
+
+# Truy cập: http://localhost
+```
+
+---
+
+## 📞 Liên Hệ & Hỗ Trợ
+
+| Câu Hỏi | Cách Giải Quyết |
+|--------|-----------------|
+| Quên mật khẩu? | Liên hệ với quản trị viên để đặt lại |
+| Báo lỗi? | Thông báo chi tiết cho dev team |
+| Muốn thêm tính năng? | Liên hệ với product team |
+
+---
+
+## 📝 Thông Tin Phiên Bản
+
+- **Framework:** Laravel 12
+- **Ngôn Ngữ:** PHP 8.2+
+- **Database:** MySQL 8.0+
+- **Trạng Thái:** ✅ Sản Xuất (Production Ready)
+
+---
+
+**Đăng Ký Demo Tài Khoản của Bạn Tại:** [hrm.duyhung.io.vn](https://hrm.duyhung.io.vn)
+
+*Phát triển bởi: IT Team - Quản Lý Nhân Sự Số 1*
